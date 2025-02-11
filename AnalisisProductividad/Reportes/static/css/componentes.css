@@ -1,0 +1,68 @@
+.tarjeta {
+    background: white;
+    border-radius: var(--radio-borde);
+    padding: 1rem;
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicion-base);
+}
+
+.tarjeta:hover {
+    transform: translateY(-2px);
+}
+
+.boton {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: white;
+    transition: var(--transicion-base);
+}
+
+.boton:hover, 
+.boton:first-child:active, 
+:not(.boton-check)+.boton:active {
+    background-color: var(--color-primario-oscuro);
+    border-color: var(--color-primario-oscuro);
+    color: white;
+}
+
+.boton:focus-visible, .boton:focus {
+    color: white;
+    background-color: var(--color-primario-oscuro);
+    border-color: var(--color-primario-oscuro);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--color-primario-transparente);
+}
+
+.boton-paginacion {
+    border: 1px solid #dee2e6;
+}
+
+.boton-paginacion-actual {
+    color: var(--color-primario);
+}
+
+
+.boton-paginacion-actual:focus-visible, 
+.boton-paginacion-actual:focus {
+    z-index: 3;
+    color: var(--color-primario);
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(128, 0, 32, 0.25);
+}
+
+.boton-paginacion-actual:hover {
+    z-index: 2;
+    color: var(--color-primario);
+    background-color: #fff;
+}
+
+.numero {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: var(--color-primario);
+}
+
+h3 {
+    color: var(--color-primario);
+}

@@ -1,0 +1,43 @@
+<div id="filtros" class="sticky-top mb-3 py-3">
+    <div class="container-fluid d-flex justify-content-center">
+        <form class="col-11" method="get" id="filtros-form">
+            <div class="row g-3">
+                <div class="col-2">
+                    <label for="usuario" class="form-label">Usuario:</label>
+                    <select id="usuario" class="form-select" name="usuario" data-placeholder="Todos los usuarios">
+                        <option></option>
+                        {% for usuario in usuarios_registrados %}
+                            <option value="{{ usuario }}" {% if request.GET.usuario == usuario %}selected{% endif %}>
+                                {{ usuario }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-2">
+                    <label for="categoria" class="form-label">Categoría:</label>
+                    <select id="categoria" class="form-select" name="categoria">
+                        <option value="">Todas las categorías</option>
+                        {% for categoria in categorias_disponibles %}
+                            <option value="{{ categoria.nombre }}" {% if request.GET.categoria == categoria.nombre|stringformat:"s" %}selected{% endif %}>
+                                {{ categoria.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="fecha-inicio" class="form-label">Fecha y Hora de Inicio:</label>
+                    <input id="fecha-inicio" class="form-control" type="datetime-local" name="fecha_inicio" value="{{ request.GET.fecha_inicio }}">
+                </div>
+                <div class="col-3">
+                    <label for="fecha-fin" class="form-label">Fecha y Hora de Fin:</label>
+                    <input id="fecha-fin" class="form-control" type="datetime-local" name="fecha_fin" value="{{ request.GET.fecha_fin }}">
+                </div>
+                <div class="col-2">
+                    <label for="fecha-exacta" class="form-label">Fecha exacta:</label>
+                    <input id="fecha-exacta" class="form-control" type="date" name="fecha_exacta" value="{{ request.GET.fecha_exacta }}">
+                </div>
+                <input type="hidden" name="buscar_registro" value="{{ request.GET.buscar_registro }}">
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+body {
+    background-color: var(--color-fondo);
+    min-width: 1200px;
+    overflow-x: auto;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+
+#filtros {
+    background-color: var(--color-primario);
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    box-shadow: var(--sombra-suave);
+}
+
+#filtros label {
+    color: white;
+    font-weight: bold;
+}
+
+th.encabezado-tabla {
+    text-align: center; 
+    vertical-align: middle; 
+    background-color: var(--color-primario); 
+    color: white; 
+}
+
+td.dato-tabla {
+    text-align: center; 
+    vertical-align: middle; 
+}
+
+.select2-container .select2-selection--single {
+    height: 38px !important;
+    padding: 6px 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: 5px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    line-height: 24px;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
+.select2-selection__placeholder {
+    color: #212529 !important;
+}
+
+.icono {
+    color: var(--color-primario) !important;
+    border-color: var(--color-primario) !important;
+}
+
+
+.form-select:focus, 
+.form-control:focus {
+    border-color: var(--color-primario);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+}

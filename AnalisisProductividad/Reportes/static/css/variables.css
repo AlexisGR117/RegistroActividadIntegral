@@ -1,0 +1,12 @@
+:root {
+    --color-primario: #800020;
+    --color-primario-oscuro: #600010;
+    --color-primario-claro: #CE8F8F;
+    --color-primario-transparente: rgba(128, 0, 32, 0.25);
+    --color-fondo: rgba(238, 242, 247, 0.927);
+    --color-texto: #212529;
+    --color-borde: #dee2e6;
+    --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --radio-borde: 1rem;
+    --transicion-base: all 0.2s ease-in-out;
+}

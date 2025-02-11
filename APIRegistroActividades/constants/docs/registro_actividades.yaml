@@ -1,0 +1,66 @@
+Guarda múltiples actividades de usuario en la base de datos
+---
+tags:
+  - APIRegistroActividades
+parameters:
+  - in: body
+    name: body
+    required: true
+    description: Lista de actividades de usuario a guardar
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          timestamp:
+            type: string
+            format: date-time
+            description: Fecha y hora del registro de actividad
+            example: "2024-12-26 11:00:44"
+          usuario:
+            type: string
+            description: Nombre del usuario
+            example: "ALEXIS"
+          titulo_ventana:
+            type: string
+            description: Título de la ventana activa
+            example: "Desktop"
+          nombre_proceso:
+            type: string
+            description: Nombre del proceso activo
+            example: "explorer"
+          segundos_gastados:
+            type: number
+            description: Tiempo gastado en segundos
+            example: 2.0336851
+responses:
+  201:
+    description: Actividades guardadas exitosamente
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Registro de la actividad del usuario realizado exitosamente"
+  400:
+    description: Datos incompletos o formatos incompletos
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Datos incorrectos en uno de los registros"
+        message:
+          type: object
+          properties:
+            segundos_gastados: 
+              type: string
+              example: "Missing data for required field."
+  500:
+    description: Error del servidor
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "No se pudo registrar la actividad del usuario"

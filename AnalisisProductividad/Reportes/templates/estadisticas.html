@@ -1,0 +1,163 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+{% include 'componentes/filtros.html'%}
+<div class="container-fluid">
+    <div class="row mb-4">
+		<div class="col-3">
+			<div class="tarjeta h-100 d-flex flex-column justify-content-center">
+				<div class="text-center">
+					<div class="h2">Tiempo en pantalla</div>
+					<div>
+						<span id="horas" class="numero"></span>
+						<span class="h4"> horas y </span>
+						<span id="minutos" class="numero"></span>
+						<span class="h4">minutos</span>
+					</div>
+				</div>
+				<div>
+					{% for categoria in top_categorias %}
+						<div class="my-3 d-flex align-items-center justify-content-between">
+							<div class="d-flex align-items-center gap-2">
+								<span class="fw-medium">{{ categoria.categoria }}</span>
+							</div>
+							<span id="top-{{ categoria.categoria }}" class="fw-medium"></span>
+						</div>
+						<div class="my-3 w-90 bg-light rounded-pill overflow-hidden" style="height: 1rem;">
+							<div
+								id="top-{{ categoria.categoria }}-barra"
+								class="h-100 rounded-pill"
+								style="transition: width 0.5s ease-in-out;">
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+        {% include 'componentes/grafico.html' with id='bar-dias' col='5'%}
+        {% include 'componentes/grafico.html' with id='radar-actividad' col='4'%}
+    </div>
+    <div class="row mb-4">
+        {% include 'componentes/grafico.html' with id='bar-procesos' col='4'%}
+        {% include 'componentes/grafico.html' with id='line-categorias' col='8'%}
+	</div>
+	
+    <div class="row mb-4"> 
+        <div class="col-12">
+            <div class="tarjeta">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+                    <h3 class="mb-3 mb-md-0"> 
+                        <i class="bi bi-table me-2"></i>Registros de Actividad
+                    </h3>
+                    <form class="input-group" method="GET" style="width: 500px">
+                        <input type="text" id="buscar_registro" name="buscar_registro" class="form-control" placeholder="Buscar registro..." value="{{ request.GET.buscar_registro }}">
+                        {% for key, value in request.GET.items %}
+                            {% if key != 'buscar_registro' and key != 'page' %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                        <button type="submit" class="btn boton">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="encabezado-tabla">FECHA Y HORA</th>
+                                <th class="encabezado-tabla">USUARIO</th>
+                                <th class="encabezado-tabla">TÍTULO VENTANA</th>
+                                <th class="encabezado-tabla">NOMBRE PROCESO</th>
+                                <th class="encabezado-tabla">PANTALLA</th>
+                                <th class="encabezado-tabla">SEGUNDOS EMPLEADOS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for registro in registros %}
+                                <tr>
+                                    <td class="dato-tabla">{{ registro.timestamp }}</td>
+                                    <td class="dato-tabla">{{ registro.usuario }}</td>
+                                    <td class="dato-tabla">{{ registro.titulo_ventana }}</td>
+                                    <td class="dato-tabla">{{ registro.nombre_proceso }}</td>
+                                    <td class="dato-tabla">{{ registro.pantalla }}</td>
+                                    <td class="dato-tabla">{{ registro.segundos_empleados }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">No se encontraron registros</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if registros.paginator.num_pages > 1 %}
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if registros.has_previous %} 
+                            <li class="page-item">
+                                <a class="boton boton-paginacion page-link" href="?page=1{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"> 
+                                    <i class="bi bi-chevron-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="boton boton-paginacion page-link" href="?page={{ registros.previous_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    {{registros.previous_page_number}}
+                                </a>
+                            </li>    
+                        {% endif %} 
+
+                        <li class="page-item">
+                            <a class="boton-paginacion-actual page-link">
+                                {{registros.number}}
+                            </a>
+                        </li>
+
+                        {% if registros.has_next %} 
+                            <li class="page-item">
+                                <a class="boton boton-paginacion page-link" href="?page={{ registros.next_page_number }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    {{ registros.next_page_number}}
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="boton boton-paginacion page-link" href="?page={{ registros.paginator.num_pages }}{% for key,value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script>
+    // Inicialización de datos
+    const radar_etiquetas = {{ categorias_etiquetas|safe }};
+    const radar_valores = {{ categorias_valores }};
+    let lineas_datasets = {{ categorias_hora_datasets|safe }};
+    const lineas_etiquetas = {{ categorias_hora_etiquetas|safe }};
+    const procesos_principales = {{ procesos_principales|safe }};
+    const barras_procesos_etiquetas = procesos_principales.etiquetas;
+    const barras_procesos_valores = procesos_principales.valores;
+    const tiempo_pantalla = {{ tiempo_pantalla }};
+    const top_3_categorias = {{ top_categorias|safe }};
+    const barras_dias_etiquetas = {{ categoria_dias_etiquetas|safe }};
+    let barras_dias_datasets = {{ categoria_dias_datasets|safe }};
+</script>
+{# Scripts externos #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+{# Scripts personalizados #}
+<script src="{% static 'js/config/colores.js' %}"></script>
+<script src="{% static 'js/utilidades/formateo.js' %}"></script>
+<script src="{% static 'js/utilidades/fecha.js' %}"></script>
+<script src="{% static 'js/componentes/graficos.js' %}"></script>
+<script src="{% static 'js/componentes/filtros.js' %}"></script>
+<script src="{% static 'js/componentes/estadisticas.js' %}"></script>
+<script src="{% static 'js/inicializacion.js' %}"></script>
+{% endblock js %}
