@@ -169,6 +169,7 @@ pip install -r requirements.txt
 mkdir logs
 
 # Aplicar migraciones de base de datos
+python manage.py makemigrations
 python manage.py migrate
 
 # Recopilar todos los archivos estáticos
