@@ -85,11 +85,11 @@ class ClasificadorActividades:
         if nombre_proceso in self.CATEGORIAS['NAVEGADORES']:
             if titulo_ventana:
                 es_entretenimiento = any(
-                    titulo.lower() in titulo_ventana
+                    titulo.lower() in titulo_ventana.lower()
                     for titulo in self.CATEGORIAS['TITULOS_ENTRETENIMIENTO']
                 )
                 es_trabajo = any(
-                    titulo.lower() in titulo_ventana
+                    titulo.lower() in titulo_ventana.lower()
                     for titulo in self.CATEGORIAS['TITULOS_TRABAJO_ESTUDIO']
                 )
                 if es_entretenimiento and not es_trabajo:

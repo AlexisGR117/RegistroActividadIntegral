@@ -27,7 +27,7 @@ class GestorEstadisticas {
             if ($barra.length) {
                 $barra.css({
                     width: `${categoria.porcentaje}%`,
-                    backgroundColor: Object.values(PALETA_COLORES.categorias)[index]
+                    backgroundColor: PALETA_COLORES.categorias[categoria.categoria]
                 });
             }
         });
